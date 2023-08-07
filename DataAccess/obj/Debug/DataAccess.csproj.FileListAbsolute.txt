@@ -1,0 +1,12 @@
+C:\Datos\Pruebas seleccion\Venta Libros\WcfVentaLibros\DataAccess\bin\Debug\DataAccess.dll.config
+C:\Datos\Pruebas seleccion\Venta Libros\WcfVentaLibros\DataAccess\bin\Debug\DataAccess.dll
+C:\Datos\Pruebas seleccion\Venta Libros\WcfVentaLibros\DataAccess\bin\Debug\DataAccess.pdb
+C:\Datos\Pruebas seleccion\Venta Libros\WcfVentaLibros\DataAccess\bin\Debug\EntityFramework.dll
+C:\Datos\Pruebas seleccion\Venta Libros\WcfVentaLibros\DataAccess\bin\Debug\EntityFramework.SqlServer.dll
+C:\Datos\Pruebas seleccion\Venta Libros\WcfVentaLibros\DataAccess\bin\Debug\EntityFramework.xml
+C:\Datos\Pruebas seleccion\Venta Libros\WcfVentaLibros\DataAccess\bin\Debug\EntityFramework.SqlServer.xml
+C:\Datos\Pruebas seleccion\Venta Libros\WcfVentaLibros\DataAccess\obj\Debug\DataAccess.csproj.AssemblyReference.cache
+C:\Datos\Pruebas seleccion\Venta Libros\WcfVentaLibros\DataAccess\obj\Debug\DataAccess.csproj.CoreCompileInputs.cache
+C:\Datos\Pruebas seleccion\Venta Libros\WcfVentaLibros\DataAccess\obj\Debug\DataAccess.csproj.CopyComplete
+C:\Datos\Pruebas seleccion\Venta Libros\WcfVentaLibros\DataAccess\obj\Debug\DataAccess.dll
+C:\Datos\Pruebas seleccion\Venta Libros\WcfVentaLibros\DataAccess\obj\Debug\DataAccess.pdb

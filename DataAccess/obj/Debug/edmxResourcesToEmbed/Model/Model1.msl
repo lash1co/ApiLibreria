@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="LibreriaDBModelStoreContainer" CdmEntityContainer="LibreriaDBEntities">
+    <EntitySetMapping Name="Cliente">
+      <EntityTypeMapping TypeName="LibreriaDBModel.Cliente">
+        <MappingFragment StoreEntitySet="Cliente">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+          <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+          <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DetalleVenta">
+      <EntityTypeMapping TypeName="LibreriaDBModel.DetalleVenta">
+        <MappingFragment StoreEntitySet="DetalleVenta">
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Venta" ColumnName="Venta" />
+          <ScalarProperty Name="Libro" ColumnName="Libro" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Libro">
+      <EntityTypeMapping TypeName="LibreriaDBModel.Libro">
+        <MappingFragment StoreEntitySet="Libro">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Autor" ColumnName="Autor" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="Precio" ColumnName="Precio" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Venta">
+      <EntityTypeMapping TypeName="LibreriaDBModel.Venta">
+        <MappingFragment StoreEntitySet="Venta">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CodVenta" ColumnName="CodVenta" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="PuntoVenta" ColumnName="PuntoVenta" />
+          <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="ActualizarCliente" FunctionName="LibreriaDBModel.Store.ActualizarCliente" />
+    <FunctionImportMapping FunctionImportName="ActualizarDetalleVenta" FunctionName="LibreriaDBModel.Store.ActualizarDetalleVenta" />
+    <FunctionImportMapping FunctionImportName="ActualizarLibro" FunctionName="LibreriaDBModel.Store.ActualizarLibro" />
+    <FunctionImportMapping FunctionImportName="ActualizarVenta" FunctionName="LibreriaDBModel.Store.ActualizarVenta" />
+    <FunctionImportMapping FunctionImportName="AgregarCliente" FunctionName="LibreriaDBModel.Store.AgregarCliente" />
+    <FunctionImportMapping FunctionImportName="AgregarDetalleVenta" FunctionName="LibreriaDBModel.Store.AgregarDetalleVenta" />
+    <FunctionImportMapping FunctionImportName="AgregarLibro" FunctionName="LibreriaDBModel.Store.AgregarLibro" />
+    <FunctionImportMapping FunctionImportName="AgregarVenta" FunctionName="LibreriaDBModel.Store.AgregarVenta" />
+    <FunctionImportMapping FunctionImportName="EliminarCliente" FunctionName="LibreriaDBModel.Store.EliminarCliente" />
+    <FunctionImportMapping FunctionImportName="EliminarDetalleVenta" FunctionName="LibreriaDBModel.Store.EliminarDetalleVenta" />
+    <FunctionImportMapping FunctionImportName="EliminarLibro" FunctionName="LibreriaDBModel.Store.EliminarLibro" />
+    <FunctionImportMapping FunctionImportName="EliminarVenta" FunctionName="LibreriaDBModel.Store.EliminarVenta" />
+    <FunctionImportMapping FunctionImportName="ObtenerCliente" FunctionName="LibreriaDBModel.Store.ObtenerCliente">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibreriaDBModel.ObtenerCliente_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+          <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+          <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ObtenerClientes" FunctionName="LibreriaDBModel.Store.ObtenerClientes">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibreriaDBModel.ObtenerClientes_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+          <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+          <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ObtenerDetallesVenta" FunctionName="LibreriaDBModel.Store.ObtenerDetallesVenta">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibreriaDBModel.ObtenerDetallesVenta_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Venta" ColumnName="Venta" />
+          <ScalarProperty Name="Libro" ColumnName="Libro" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ObtenerDetalleVenta" FunctionName="LibreriaDBModel.Store.ObtenerDetalleVenta">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibreriaDBModel.ObtenerDetalleVenta_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Venta" ColumnName="Venta" />
+          <ScalarProperty Name="Libro" ColumnName="Libro" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ObtenerLibro" FunctionName="LibreriaDBModel.Store.ObtenerLibro">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibreriaDBModel.ObtenerLibro_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Autor" ColumnName="Autor" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="Precio" ColumnName="Precio" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ObtenerLibros" FunctionName="LibreriaDBModel.Store.ObtenerLibros">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibreriaDBModel.ObtenerLibros_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Autor" ColumnName="Autor" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="Precio" ColumnName="Precio" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ObtenerVenta" FunctionName="LibreriaDBModel.Store.ObtenerVenta">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibreriaDBModel.ObtenerVenta_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CodVenta" ColumnName="CodVenta" />
+          <ScalarProperty Name="PuntoVenta" ColumnName="PuntoVenta" />
+          <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+          <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ObtenerVentas" FunctionName="LibreriaDBModel.Store.ObtenerVentas">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LibreriaDBModel.ObtenerVentas_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CodVenta" ColumnName="CodVenta" />
+          <ScalarProperty Name="PuntoVenta" ColumnName="PuntoVenta" />
+          <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+          <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

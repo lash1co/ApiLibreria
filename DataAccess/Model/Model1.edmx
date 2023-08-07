@@ -1,0 +1,607 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LibreriaDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cedula" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Nombres" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Telefono" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Direccion" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DetalleVenta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Venta" Type="bigint" Nullable="false" />
+          <Property Name="Libro" Type="bigint" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Libro">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Autor" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Cantidad" Type="int" Nullable="false" />
+          <Property Name="Precio" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Venta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodVenta" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="PuntoVenta" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Cliente" Type="bigint" Nullable="false" />
+          <Property Name="Total" Type="money" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_DetalleVenta_Libro">
+          <End Role="Libro" Type="Self.Libro" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Libro">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetalleVenta">
+              <PropertyRef Name="Libro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetalleVenta_Venta">
+          <End Role="Venta" Type="Self.Venta" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Venta">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetalleVenta">
+              <PropertyRef Name="Venta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Venta_Cliente">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="Cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="ActualizarCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCliente" Type="bigint" Mode="In" />
+          <Parameter Name="Cedula" Type="nvarchar" Mode="In" />
+          <Parameter Name="Nombres" Type="nvarchar" Mode="In" />
+          <Parameter Name="Telefono" Type="nvarchar" Mode="In" />
+          <Parameter Name="Direccion" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="ActualizarDetalleVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="bigint" Mode="In" />
+          <Parameter Name="Venta" Type="bigint" Mode="In" />
+          <Parameter Name="Libro" Type="bigint" Mode="In" />
+          <Parameter Name="Cantidad" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ActualizarLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdLibro" Type="bigint" Mode="In" />
+          <Parameter Name="Nombre" Type="nvarchar" Mode="In" />
+          <Parameter Name="Autor" Type="nvarchar" Mode="In" />
+          <Parameter Name="Cantidad" Type="int" Mode="In" />
+          <Parameter Name="Precio" Type="money" Mode="In" />
+        </Function>
+        <Function Name="ActualizarVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdVenta" Type="bigint" Mode="In" />
+          <Parameter Name="CodVenta" Type="nvarchar" Mode="In" />
+          <Parameter Name="Fecha" Type="datetime" Mode="In" />
+          <Parameter Name="PuntoVenta" Type="nvarchar" Mode="In" />
+          <Parameter Name="Cliente" Type="bigint" Mode="In" />
+          <Parameter Name="Total" Type="money" Mode="In" />
+        </Function>
+        <Function Name="AgregarCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Cedula" Type="nvarchar" Mode="In" />
+          <Parameter Name="Nombres" Type="nvarchar" Mode="In" />
+          <Parameter Name="Telefono" Type="nvarchar" Mode="In" />
+          <Parameter Name="Direccion" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="AgregarDetalleVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Venta" Type="bigint" Mode="In" />
+          <Parameter Name="Libro" Type="bigint" Mode="In" />
+          <Parameter Name="Cantidad" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AgregarLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="nvarchar" Mode="In" />
+          <Parameter Name="Autor" Type="nvarchar" Mode="In" />
+          <Parameter Name="Cantidad" Type="int" Mode="In" />
+          <Parameter Name="Precio" Type="money" Mode="In" />
+        </Function>
+        <Function Name="AgregarVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CodVenta" Type="nvarchar" Mode="In" />
+          <Parameter Name="Fecha" Type="datetime" Mode="In" />
+          <Parameter Name="PuntoVenta" Type="nvarchar" Mode="In" />
+          <Parameter Name="Cliente" Type="bigint" Mode="In" />
+          <Parameter Name="Total" Type="money" Mode="In" />
+        </Function>
+        <Function Name="EliminarCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCliente" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="EliminarDetalleVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="EliminarLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdLibro" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="EliminarVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdVenta" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerClientes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ObtenerDetallesVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Venta" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerDetalleVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerLibro" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerLibros" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ObtenerVenta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdVenta" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerVentas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="LibreriaDBModelStoreContainer">
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetalleVenta" EntityType="Self.DetalleVenta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Libro" EntityType="Self.Libro" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Venta" EntityType="Self.Venta" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DetalleVenta_Libro" Association="Self.FK_DetalleVenta_Libro">
+            <End Role="Libro" EntitySet="Libro" />
+            <End Role="DetalleVenta" EntitySet="DetalleVenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetalleVenta_Venta" Association="Self.FK_DetalleVenta_Venta">
+            <End Role="Venta" EntitySet="Venta" />
+            <End Role="DetalleVenta" EntitySet="DetalleVenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Venta_Cliente" Association="Self.FK_Venta_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Venta" EntitySet="Venta" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LibreriaDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cedula" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Nombres" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Venta" Relationship="Self.FK_Venta_Cliente" FromRole="Cliente" ToRole="Venta" />
+        </EntityType>
+        <EntityType Name="DetalleVenta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Venta" Type="Int64" Nullable="false" />
+          <Property Name="Libro" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Libro1" Relationship="Self.FK_DetalleVenta_Libro" FromRole="DetalleVenta" ToRole="Libro" />
+          <NavigationProperty Name="Venta1" Relationship="Self.FK_DetalleVenta_Venta" FromRole="DetalleVenta" ToRole="Venta" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Libro">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Autor" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Cantidad" Type="Int32" Nullable="false" />
+          <Property Name="Precio" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="DetalleVenta" Relationship="Self.FK_DetalleVenta_Libro" FromRole="Libro" ToRole="DetalleVenta" />
+        </EntityType>
+        <EntityType Name="Venta">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodVenta" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PuntoVenta" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Cliente" Type="Int64" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Cliente1" Relationship="Self.FK_Venta_Cliente" FromRole="Venta" ToRole="Cliente" />
+          <NavigationProperty Name="DetalleVenta" Relationship="Self.FK_DetalleVenta_Venta" FromRole="Venta" ToRole="DetalleVenta" />
+        </EntityType>
+        <Association Name="FK_Venta_Cliente">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="Cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetalleVenta_Libro">
+          <End Role="Libro" Type="Self.Libro" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Libro">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetalleVenta">
+              <PropertyRef Name="Libro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetalleVenta_Venta">
+          <End Role="Venta" Type="Self.Venta" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Venta">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetalleVenta">
+              <PropertyRef Name="Venta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LibreriaDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+          <EntitySet Name="DetalleVenta" EntityType="Self.DetalleVenta" />
+          <EntitySet Name="Libro" EntityType="Self.Libro" />
+          <EntitySet Name="Venta" EntityType="Self.Venta" />
+          <AssociationSet Name="FK_Venta_Cliente" Association="Self.FK_Venta_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Venta" EntitySet="Venta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetalleVenta_Libro" Association="Self.FK_DetalleVenta_Libro">
+            <End Role="Libro" EntitySet="Libro" />
+            <End Role="DetalleVenta" EntitySet="DetalleVenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetalleVenta_Venta" Association="Self.FK_DetalleVenta_Venta">
+            <End Role="Venta" EntitySet="Venta" />
+            <End Role="DetalleVenta" EntitySet="DetalleVenta" />
+          </AssociationSet>
+          <FunctionImport Name="ActualizarCliente">
+            <Parameter Name="IdCliente" Mode="In" Type="Int64" />
+            <Parameter Name="Cedula" Mode="In" Type="String" />
+            <Parameter Name="Nombres" Mode="In" Type="String" />
+            <Parameter Name="Telefono" Mode="In" Type="String" />
+            <Parameter Name="Direccion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarDetalleVenta">
+            <Parameter Name="Id" Mode="In" Type="Int64" />
+            <Parameter Name="Venta" Mode="In" Type="Int64" />
+            <Parameter Name="Libro" Mode="In" Type="Int64" />
+            <Parameter Name="Cantidad" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarLibro">
+            <Parameter Name="IdLibro" Mode="In" Type="Int64" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Autor" Mode="In" Type="String" />
+            <Parameter Name="Cantidad" Mode="In" Type="Int32" />
+            <Parameter Name="Precio" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarVenta">
+            <Parameter Name="IdVenta" Mode="In" Type="Int64" />
+            <Parameter Name="CodVenta" Mode="In" Type="String" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="PuntoVenta" Mode="In" Type="String" />
+            <Parameter Name="Cliente" Mode="In" Type="Int64" />
+            <Parameter Name="Total" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="AgregarCliente">
+            <Parameter Name="Cedula" Mode="In" Type="String" />
+            <Parameter Name="Nombres" Mode="In" Type="String" />
+            <Parameter Name="Telefono" Mode="In" Type="String" />
+            <Parameter Name="Direccion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AgregarDetalleVenta">
+            <Parameter Name="Venta" Mode="In" Type="Int64" />
+            <Parameter Name="Libro" Mode="In" Type="Int64" />
+            <Parameter Name="Cantidad" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AgregarLibro">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Autor" Mode="In" Type="String" />
+            <Parameter Name="Cantidad" Mode="In" Type="Int32" />
+            <Parameter Name="Precio" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="AgregarVenta">
+            <Parameter Name="CodVenta" Mode="In" Type="String" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="PuntoVenta" Mode="In" Type="String" />
+            <Parameter Name="Cliente" Mode="In" Type="Int64" />
+            <Parameter Name="Total" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarCliente">
+          <Parameter Name="IdCliente" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarDetalleVenta">
+          <Parameter Name="Id" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarLibro">
+          <Parameter Name="IdLibro" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarVenta">
+          <Parameter Name="IdVenta" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerCliente" ReturnType="Collection(LibreriaDBModel.ObtenerCliente_Result)">
+          <Parameter Name="Id" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerClientes" ReturnType="Collection(LibreriaDBModel.ObtenerClientes_Result)" />
+          <FunctionImport Name="ObtenerDetallesVenta" ReturnType="Collection(LibreriaDBModel.ObtenerDetallesVenta_Result)">
+          <Parameter Name="Venta" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerDetalleVenta" ReturnType="Collection(LibreriaDBModel.ObtenerDetalleVenta_Result)">
+          <Parameter Name="Id" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerLibro" ReturnType="Collection(LibreriaDBModel.ObtenerLibro_Result)">
+          <Parameter Name="Id" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerLibros" ReturnType="Collection(LibreriaDBModel.ObtenerLibros_Result)" />
+          <FunctionImport Name="ObtenerVenta" ReturnType="Collection(LibreriaDBModel.ObtenerVenta_Result)">
+          <Parameter Name="IdVenta" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerVentas" ReturnType="Collection(LibreriaDBModel.ObtenerVentas_Result)" />
+        </EntityContainer>
+        <ComplexType Name="ObtenerCliente_Result">
+          <Property Type="Int64" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Nombres" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Direccion" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="ObtenerClientes_Result">
+          <Property Type="Int64" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Nombres" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Direccion" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="ObtenerDetallesVenta_Result">
+          <Property Type="Int64" Name="Id" Nullable="false" />
+          <Property Type="Int64" Name="Venta" Nullable="false" />
+          <Property Type="Int64" Name="Libro" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ObtenerDetalleVenta_Result">
+          <Property Type="Int64" Name="Id" Nullable="false" />
+          <Property Type="Int64" Name="Venta" Nullable="false" />
+          <Property Type="Int64" Name="Libro" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ObtenerLibro_Result">
+          <Property Type="Int64" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Autor" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="Cantidad" Nullable="false" />
+          <Property Type="Decimal" Name="Precio" Nullable="false" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="ObtenerLibros_Result">
+          <Property Type="Int64" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Autor" Nullable="false" MaxLength="30" />
+          <Property Type="Int32" Name="Cantidad" Nullable="false" />
+          <Property Type="Decimal" Name="Precio" Nullable="false" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="ObtenerVenta_Result">
+          <Property Type="Int64" Name="Id" Nullable="false" />
+          <Property Type="String" Name="CodVenta" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="PuntoVenta" Nullable="false" MaxLength="20" />
+          <Property Type="Int64" Name="Cliente" Nullable="false" />
+          <Property Type="String" Name="Nombres" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Total" Nullable="false" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="ObtenerVentas_Result">
+          <Property Type="Int64" Name="Id" Nullable="false" />
+          <Property Type="String" Name="CodVenta" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="PuntoVenta" Nullable="false" MaxLength="20" />
+          <Property Type="Int64" Name="Cliente" Nullable="false" />
+          <Property Type="String" Name="Nombres" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Total" Nullable="false" Precision="19" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LibreriaDBModelStoreContainer" CdmEntityContainer="LibreriaDBEntities">
+          <EntitySetMapping Name="Cliente">
+            <EntityTypeMapping TypeName="LibreriaDBModel.Cliente">
+              <MappingFragment StoreEntitySet="Cliente">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetalleVenta">
+            <EntityTypeMapping TypeName="LibreriaDBModel.DetalleVenta">
+              <MappingFragment StoreEntitySet="DetalleVenta">
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Venta" ColumnName="Venta" />
+                <ScalarProperty Name="Libro" ColumnName="Libro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Libro">
+            <EntityTypeMapping TypeName="LibreriaDBModel.Libro">
+              <MappingFragment StoreEntitySet="Libro">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Autor" ColumnName="Autor" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Venta">
+            <EntityTypeMapping TypeName="LibreriaDBModel.Venta">
+              <MappingFragment StoreEntitySet="Venta">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CodVenta" ColumnName="CodVenta" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="PuntoVenta" ColumnName="PuntoVenta" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ActualizarCliente" FunctionName="LibreriaDBModel.Store.ActualizarCliente" />
+          <FunctionImportMapping FunctionImportName="ActualizarDetalleVenta" FunctionName="LibreriaDBModel.Store.ActualizarDetalleVenta" />
+          <FunctionImportMapping FunctionImportName="ActualizarLibro" FunctionName="LibreriaDBModel.Store.ActualizarLibro" />
+          <FunctionImportMapping FunctionImportName="ActualizarVenta" FunctionName="LibreriaDBModel.Store.ActualizarVenta" />
+          <FunctionImportMapping FunctionImportName="AgregarCliente" FunctionName="LibreriaDBModel.Store.AgregarCliente" />
+          <FunctionImportMapping FunctionImportName="AgregarDetalleVenta" FunctionName="LibreriaDBModel.Store.AgregarDetalleVenta" />
+          <FunctionImportMapping FunctionImportName="AgregarLibro" FunctionName="LibreriaDBModel.Store.AgregarLibro" />
+          <FunctionImportMapping FunctionImportName="AgregarVenta" FunctionName="LibreriaDBModel.Store.AgregarVenta" />
+          <FunctionImportMapping FunctionImportName="EliminarCliente" FunctionName="LibreriaDBModel.Store.EliminarCliente" />
+          <FunctionImportMapping FunctionImportName="EliminarDetalleVenta" FunctionName="LibreriaDBModel.Store.EliminarDetalleVenta" />
+          <FunctionImportMapping FunctionImportName="EliminarLibro" FunctionName="LibreriaDBModel.Store.EliminarLibro" />
+          <FunctionImportMapping FunctionImportName="EliminarVenta" FunctionName="LibreriaDBModel.Store.EliminarVenta" />
+          <FunctionImportMapping FunctionImportName="ObtenerCliente" FunctionName="LibreriaDBModel.Store.ObtenerCliente">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibreriaDBModel.ObtenerCliente_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerClientes" FunctionName="LibreriaDBModel.Store.ObtenerClientes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibreriaDBModel.ObtenerClientes_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerDetallesVenta" FunctionName="LibreriaDBModel.Store.ObtenerDetallesVenta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibreriaDBModel.ObtenerDetallesVenta_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Venta" ColumnName="Venta" />
+                <ScalarProperty Name="Libro" ColumnName="Libro" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerDetalleVenta" FunctionName="LibreriaDBModel.Store.ObtenerDetalleVenta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibreriaDBModel.ObtenerDetalleVenta_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Venta" ColumnName="Venta" />
+                <ScalarProperty Name="Libro" ColumnName="Libro" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerLibro" FunctionName="LibreriaDBModel.Store.ObtenerLibro">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibreriaDBModel.ObtenerLibro_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Autor" ColumnName="Autor" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerLibros" FunctionName="LibreriaDBModel.Store.ObtenerLibros">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibreriaDBModel.ObtenerLibros_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Autor" ColumnName="Autor" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerVenta" FunctionName="LibreriaDBModel.Store.ObtenerVenta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibreriaDBModel.ObtenerVenta_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CodVenta" ColumnName="CodVenta" />
+                <ScalarProperty Name="PuntoVenta" ColumnName="PuntoVenta" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerVentas" FunctionName="LibreriaDBModel.Store.ObtenerVentas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LibreriaDBModel.ObtenerVentas_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CodVenta" ColumnName="CodVenta" />
+                <ScalarProperty Name="PuntoVenta" ColumnName="PuntoVenta" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

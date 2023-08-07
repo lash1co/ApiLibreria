@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LibreriaDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Cliente">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Cedula" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Nombres" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Telefono" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Venta" Relationship="Self.FK_Venta_Cliente" FromRole="Cliente" ToRole="Venta" />
+  </EntityType>
+  <EntityType Name="DetalleVenta">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Venta" Type="Int64" Nullable="false" />
+    <Property Name="Libro" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="Libro1" Relationship="Self.FK_DetalleVenta_Libro" FromRole="DetalleVenta" ToRole="Libro" />
+    <NavigationProperty Name="Venta1" Relationship="Self.FK_DetalleVenta_Venta" FromRole="DetalleVenta" ToRole="Venta" />
+    <Property Name="Cantidad" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Libro">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Autor" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Cantidad" Type="Int32" Nullable="false" />
+    <Property Name="Precio" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <NavigationProperty Name="DetalleVenta" Relationship="Self.FK_DetalleVenta_Libro" FromRole="Libro" ToRole="DetalleVenta" />
+  </EntityType>
+  <EntityType Name="Venta">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CodVenta" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="PuntoVenta" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Cliente" Type="Int64" Nullable="false" />
+    <Property Name="Total" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <NavigationProperty Name="Cliente1" Relationship="Self.FK_Venta_Cliente" FromRole="Venta" ToRole="Cliente" />
+    <NavigationProperty Name="DetalleVenta" Relationship="Self.FK_DetalleVenta_Venta" FromRole="Venta" ToRole="DetalleVenta" />
+  </EntityType>
+  <Association Name="FK_Venta_Cliente">
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Venta">
+        <PropertyRef Name="Cliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetalleVenta_Libro">
+    <End Role="Libro" Type="Self.Libro" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Libro">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DetalleVenta">
+        <PropertyRef Name="Libro" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetalleVenta_Venta">
+    <End Role="Venta" Type="Self.Venta" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Venta">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DetalleVenta">
+        <PropertyRef Name="Venta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LibreriaDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+    <EntitySet Name="DetalleVenta" EntityType="Self.DetalleVenta" />
+    <EntitySet Name="Libro" EntityType="Self.Libro" />
+    <EntitySet Name="Venta" EntityType="Self.Venta" />
+    <AssociationSet Name="FK_Venta_Cliente" Association="Self.FK_Venta_Cliente">
+      <End Role="Cliente" EntitySet="Cliente" />
+      <End Role="Venta" EntitySet="Venta" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetalleVenta_Libro" Association="Self.FK_DetalleVenta_Libro">
+      <End Role="Libro" EntitySet="Libro" />
+      <End Role="DetalleVenta" EntitySet="DetalleVenta" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetalleVenta_Venta" Association="Self.FK_DetalleVenta_Venta">
+      <End Role="Venta" EntitySet="Venta" />
+      <End Role="DetalleVenta" EntitySet="DetalleVenta" />
+    </AssociationSet>
+    <FunctionImport Name="ActualizarCliente">
+      <Parameter Name="IdCliente" Mode="In" Type="Int64" />
+      <Parameter Name="Cedula" Mode="In" Type="String" />
+      <Parameter Name="Nombres" Mode="In" Type="String" />
+      <Parameter Name="Telefono" Mode="In" Type="String" />
+      <Parameter Name="Direccion" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ActualizarDetalleVenta">
+      <Parameter Name="Id" Mode="In" Type="Int64" />
+      <Parameter Name="Venta" Mode="In" Type="Int64" />
+      <Parameter Name="Libro" Mode="In" Type="Int64" />
+      <Parameter Name="Cantidad" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="ActualizarLibro">
+      <Parameter Name="IdLibro" Mode="In" Type="Int64" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Autor" Mode="In" Type="String" />
+      <Parameter Name="Cantidad" Mode="In" Type="Int32" />
+      <Parameter Name="Precio" Mode="In" Type="Decimal" />
+    </FunctionImport>
+    <FunctionImport Name="ActualizarVenta">
+      <Parameter Name="IdVenta" Mode="In" Type="Int64" />
+      <Parameter Name="CodVenta" Mode="In" Type="String" />
+      <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+      <Parameter Name="PuntoVenta" Mode="In" Type="String" />
+      <Parameter Name="Cliente" Mode="In" Type="Int64" />
+      <Parameter Name="Total" Mode="In" Type="Decimal" />
+    </FunctionImport>
+    <FunctionImport Name="AgregarCliente">
+      <Parameter Name="Cedula" Mode="In" Type="String" />
+      <Parameter Name="Nombres" Mode="In" Type="String" />
+      <Parameter Name="Telefono" Mode="In" Type="String" />
+      <Parameter Name="Direccion" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="AgregarDetalleVenta">
+      <Parameter Name="Venta" Mode="In" Type="Int64" />
+      <Parameter Name="Libro" Mode="In" Type="Int64" />
+      <Parameter Name="Cantidad" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="AgregarLibro">
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Autor" Mode="In" Type="String" />
+      <Parameter Name="Cantidad" Mode="In" Type="Int32" />
+      <Parameter Name="Precio" Mode="In" Type="Decimal" />
+    </FunctionImport>
+    <FunctionImport Name="AgregarVenta">
+      <Parameter Name="CodVenta" Mode="In" Type="String" />
+      <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+      <Parameter Name="PuntoVenta" Mode="In" Type="String" />
+      <Parameter Name="Cliente" Mode="In" Type="Int64" />
+      <Parameter Name="Total" Mode="In" Type="Decimal" />
+    </FunctionImport>
+    <FunctionImport Name="EliminarCliente">
+      <Parameter Name="IdCliente" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="EliminarDetalleVenta">
+      <Parameter Name="Id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="EliminarLibro">
+      <Parameter Name="IdLibro" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="EliminarVenta">
+      <Parameter Name="IdVenta" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="ObtenerCliente" ReturnType="Collection(LibreriaDBModel.ObtenerCliente_Result)">
+      <Parameter Name="Id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="ObtenerClientes" ReturnType="Collection(LibreriaDBModel.ObtenerClientes_Result)" />
+    <FunctionImport Name="ObtenerDetallesVenta" ReturnType="Collection(LibreriaDBModel.ObtenerDetallesVenta_Result)">
+      <Parameter Name="Venta" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="ObtenerDetalleVenta" ReturnType="Collection(LibreriaDBModel.ObtenerDetalleVenta_Result)">
+      <Parameter Name="Id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="ObtenerLibro" ReturnType="Collection(LibreriaDBModel.ObtenerLibro_Result)">
+      <Parameter Name="Id" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="ObtenerLibros" ReturnType="Collection(LibreriaDBModel.ObtenerLibros_Result)" />
+    <FunctionImport Name="ObtenerVenta" ReturnType="Collection(LibreriaDBModel.ObtenerVenta_Result)">
+      <Parameter Name="IdVenta" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="ObtenerVentas" ReturnType="Collection(LibreriaDBModel.ObtenerVentas_Result)" />
+  </EntityContainer>
+  <ComplexType Name="ObtenerCliente_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Cedula" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="Nombres" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Telefono" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="Direccion" Nullable="false" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="ObtenerClientes_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Cedula" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="Nombres" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Telefono" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="Direccion" Nullable="false" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="ObtenerDetallesVenta_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="Int64" Name="Venta" Nullable="false" />
+    <Property Type="Int64" Name="Libro" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="ObtenerDetalleVenta_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="Int64" Name="Venta" Nullable="false" />
+    <Property Type="Int64" Name="Libro" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="ObtenerLibro_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="Autor" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="Cantidad" Nullable="false" />
+    <Property Type="Decimal" Name="Precio" Nullable="false" Precision="19" />
+  </ComplexType>
+  <ComplexType Name="ObtenerLibros_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="Autor" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="Cantidad" Nullable="false" />
+    <Property Type="Decimal" Name="Precio" Nullable="false" Precision="19" />
+  </ComplexType>
+  <ComplexType Name="ObtenerVenta_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="String" Name="CodVenta" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="PuntoVenta" Nullable="false" MaxLength="20" />
+    <Property Type="Int64" Name="Cliente" Nullable="false" />
+    <Property Type="String" Name="Nombres" Nullable="false" MaxLength="50" />
+    <Property Type="Decimal" Name="Total" Nullable="false" Precision="19" />
+  </ComplexType>
+  <ComplexType Name="ObtenerVentas_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="String" Name="CodVenta" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="PuntoVenta" Nullable="false" MaxLength="20" />
+    <Property Type="Int64" Name="Cliente" Nullable="false" />
+    <Property Type="String" Name="Nombres" Nullable="false" MaxLength="50" />
+    <Property Type="Decimal" Name="Total" Nullable="false" Precision="19" />
+  </ComplexType>
+</Schema>
